@@ -26,7 +26,8 @@ Every field must perform its assigned job. Do not scatter operational instructio
 
 ## Long Description — make guests imagine the journey
 
-- Use chronological nodes while keeping every body vivid, warm, guest-centered, and sales-oriented.
+- For `day_tour`, use chronological nodes while keeping every body vivid, warm, guest-centered, and sales-oriented.
+- For `ticket` or `experience`, do not force a timeline. Use distinct `▼` sections organized by the product's selling points, such as access, what is included, what guests experience, atmosphere, participation, flexibility, or the final payoff.
 - Introduce what the guest sees, does, feels, photographs, tastes, learns, or gains at each stop.
 - Explain why each stop deserves its place in the route and maintain forward momentum.
 - Mention pickup, transport, group format, or route design only as verified convenience benefits—not as detailed participation instructions.
@@ -34,8 +35,10 @@ Every field must perform its assigned job. Do not scatter operational instructio
 
 ## Option Title and Description — make the right choice desirable
 
-- Lead with the option's customer value and concrete difference.
-- Keep the Description persuasive and easy to compare with parallel options.
+- Keep every Option title brief, precise, high-conversion, and parallel with the other titles. A traveler must recognize the changed attribute at a glance.
+- Write every Option Description in 180-200 characters.
+- Lead with the exact option content and concrete difference so parallel options are instantly comparable.
+- Use the latter part of the Description to create desire for that choice through a truthful convenience, comfort, access, flexibility, or experience benefit.
 - An option-specific minimum booking size or eligibility condition may appear because it is necessary to choose correctly; phrase it clearly and politely.
 - Put detailed participation instructions in Voucher Information and general cautions in Know Before You Go.
 

@@ -19,6 +19,7 @@ TITLE_BANNED = {"amazing", "best", "unforgettable"}
 CONTACT_RE = re.compile(r"(?:[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|\+?\d[\d ()-]{7,}\d)")
 PLACEHOLDER_RE = re.compile(r"(?:\bTBD\b|\bXXX\b|\{[^{}]+\}|\[(?:insert|add|confirm|tbd)[^\]]*\])", re.I)
 HEADING_RE = re.compile(r"^▼\s+.+$")
+TIME_HEADING_RE = re.compile(r"\b(?:[01]?\d|2[0-3]):[0-5]\d\b")
 AMBIGUOUS_TITLE_COUNT_RE = re.compile(r"\b\d+\s+(?:spots?|highlights?)\s+(?:small[- ]group|group)\b", re.I)
 GENERIC_OPTION_TITLE_RE = re.compile(r"^(?:option\s*\d*|standard|basic|premium)$", re.I)
 DISCLAIMER_RE = re.compile(
@@ -49,10 +50,12 @@ def sentence_count(text):
 
 def full_text(data):
     parts = []
-    for stop in data.get("full_description", {}).get("stops", []):
-        parts.append(str(stop.get("heading", "")).strip())
-        parts.extend(str(x).strip() for x in stop.get("details", []) if str(x).strip())
-        parts.append(str(stop.get("body", "")).strip())
+    full = data.get("full_description", {})
+    sections = full.get("sections", full.get("stops", []))
+    for section in sections:
+        parts.append(str(section.get("heading", "")).strip())
+        parts.extend(str(x).strip() for x in section.get("details", []) if str(x).strip())
+        parts.append(str(section.get("body", "")).strip())
     return "\n".join(x for x in parts if x)
 
 
@@ -85,6 +88,20 @@ def recommend_range(warnings, label, value, rule_name):
 
 def validate(data):
     errors, warnings = [], []
+    product_type = str(data.get("product_type", "")).strip()
+    if product_type not in {"day_tour", "ticket", "experience"}:
+        errors.append("Product type must be exactly day_tour, ticket, or experience.")
+    preflight = data.get("preflight_review", {})
+    if not isinstance(preflight, dict) or preflight.get("status") != "PASS":
+        errors.append("Preflight review must be completed with status PASS before drafting.")
+        preflight = {}
+    else:
+        if preflight.get("product_type_confirmed") is not True:
+            errors.append("Preflight review must confirm the product type.")
+        if preflight.get("critical_questions_resolved") is not True:
+            errors.append("Preflight review must resolve all critical questions in one consolidated audit.")
+        if preflight.get("options_status") not in {"confirmed_present", "confirmed_none"}:
+            errors.append("Preflight review must confirm whether options are present or absent.")
     title = str(data.get("product_title", "")).strip()
     short = str(data.get("short_description", "")).strip()
     highlights = data.get("highlights", [])
@@ -135,10 +152,10 @@ def validate(data):
     full_obj = data.get("full_description", {})
     if "opening" in full_obj or "closing" in full_obj:
         errors.append("Full description must not contain standalone opening or closing fields; use departure and return nodes.")
-    stops = full_obj.get("stops", [])
+    stops = full_obj.get("sections", full_obj.get("stops", []))
     stop_counts = []
     if not isinstance(stops, list) or not stops:
-        errors.append("At least one full-description stop is required.")
+        errors.append("At least one full-description section is required.")
     else:
         opening_keys = []
         for i, stop in enumerate(stops, 1):
@@ -148,7 +165,9 @@ def validate(data):
             if not heading or not body:
                 errors.append(f"Stop {i} requires both heading and body.")
             if heading and ("\n" in heading or "\r" in heading or not HEADING_RE.fullmatch(heading)):
-                errors.append(f"Stop {i} heading must be one line beginning with '▼ '.")
+                errors.append(f"Section {i} heading must be one line beginning with '▼ '.")
+            if product_type == "day_tour" and heading and not TIME_HEADING_RE.search(heading):
+                errors.append(f"Day-tour section {i} heading must include a supplied itinerary time.")
             if not isinstance(details, list):
                 errors.append(f"Stop {i} details must be an array.")
             else:
@@ -163,17 +182,17 @@ def validate(data):
             opening_key = " ".join(re.findall(r"[A-Za-z']+", body.lower())[:3])
             if opening_key:
                 opening_keys.append((i, opening_key))
-            stop_rule = HARD["stop_body"]
+            stop_rule = HARD["description_section_body"]
             if not stop_rule["min"] <= count <= stop_rule["max"]:
                 errors.append(
-                    f"Stop {i} body is {count} characters; required range is "
+                    f"Section {i} body is {count} characters; required range is "
                     f"{stop_rule['min']}-{stop_rule['max']}."
                 )
         seen_openings = {}
         for index, opening_key in opening_keys:
             if opening_key in seen_openings:
                 errors.append(
-                    f"Stops {seen_openings[opening_key]} and {index} repeat the same opening phrase "
+                    f"Sections {seen_openings[opening_key]} and {index} repeat the same opening phrase "
                     f"'{opening_key}'; vary each itinerary-node opening."
                 )
             else:
@@ -185,13 +204,20 @@ def validate(data):
     promotional_fields = [("Product title", title), ("Short description", short)]
     promotional_fields.extend((f"Highlight {i}", str(item)) for i, item in enumerate(highlights, 1))
     for i, stop in enumerate(stops, 1):
-        promotional_fields.append((f"Stop {i} heading", str(stop.get("heading", ""))))
-        promotional_fields.append((f"Stop {i} body", str(stop.get("body", ""))))
+        promotional_fields.append((f"Section {i} heading", str(stop.get("heading", ""))))
+        promotional_fields.append((f"Section {i} body", str(stop.get("body", ""))))
         promotional_fields.extend(
-            (f"Stop {i} detail {j}", str(detail))
+            (f"Section {i} detail {j}", str(detail))
             for j, detail in enumerate(stop.get("details", []), 1)
         )
-    for i, option in enumerate(data.get("options", []), 1):
+    options = data.get("options", [])
+    if preflight.get("options_status") == "confirmed_present" and not options:
+        errors.append("Preflight confirms options are present, but no options were supplied.")
+    if preflight.get("options_status") == "confirmed_none" and options:
+        errors.append("Preflight confirms no options, but options were supplied.")
+    normalized_option_titles = []
+    normalized_option_descriptions = []
+    for i, option in enumerate(options, 1):
         if isinstance(option, dict):
             promotional_fields.append((f"Option {i} title", str(option.get("title", ""))))
             promotional_fields.append((f"Option {i} description", str(option.get("description", ""))))
@@ -224,6 +250,8 @@ def validate(data):
             errors.append(f"Option {i} title must state a concrete differentiator, not '{option_title}'.")
         if not option_description:
             errors.append(f"Option {i} description is required.")
+        else:
+            check_range(errors, f"Option {i} description", option_description, HARD["option_description"])
         if not meeting_pickup:
             errors.append(f"Option {i} meeting/pickup is required; use 'Not applicable' only when true.")
         if not availability:
@@ -232,10 +260,15 @@ def validate(data):
             if key in option and not isinstance(option[key], list):
                 errors.append(f"Option {i} {key} must be an array.")
         recommend_range(warnings, f"Option {i} title", option_title, "option_title")
-        recommend_range(warnings, f"Option {i} description", option_description, "option_description")
         if meeting_pickup.lower() != "not applicable":
             recommend_range(warnings, f"Option {i} meeting/pickup", meeting_pickup, "meeting_pickup")
         recommend_range(warnings, f"Option {i} availability", availability, "availability")
+        normalized_option_titles.append(re.sub(r"\W+", " ", option_title.lower()).strip())
+        normalized_option_descriptions.append(re.sub(r"\W+", " ", option_description.lower()).strip())
+    if len(set(normalized_option_titles)) != len(normalized_option_titles):
+        errors.append("Option titles must be unique and instantly distinguishable.")
+    if len(set(normalized_option_descriptions)) != len(normalized_option_descriptions):
+        errors.append("Option descriptions must state distinct option content and cannot be duplicates.")
 
     serialized = json.dumps(data, ensure_ascii=False)
     if CONTACT_RE.search(serialized):
@@ -250,7 +283,7 @@ def validate(data):
         "short_description": short_count,
         "highlights": highlight_counts,
         "full_description": full_count,
-        "stop_bodies": stop_counts,
+        "section_bodies": stop_counts,
     }
 
 

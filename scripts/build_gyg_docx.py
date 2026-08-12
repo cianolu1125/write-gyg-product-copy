@@ -80,8 +80,8 @@ def build(data, output):
 
     add_heading(doc, "4. Full Description")
     full = data["full_description"]
-    stops = full.get("stops", [])
-    for index, stop in enumerate(stops):
+    sections = full.get("sections", full.get("stops", []))
+    for index, stop in enumerate(sections):
         h = doc.add_paragraph()
         h.paragraph_format.keep_with_next = True
         r = h.add_run(stop["heading"])
@@ -91,7 +91,7 @@ def build(data, output):
             p = doc.add_paragraph(str(detail), style="List Bullet")
             p.paragraph_format.left_indent = Inches(0.25)
         doc.add_paragraph(stop["body"])
-        if index < len(stops) - 1:
+        if index < len(sections) - 1:
             doc.add_paragraph()
 
     sections = [
@@ -164,8 +164,8 @@ def build(data, output):
         for i, n in enumerate(counts["highlights"], 1)
     ]
     rows += [
-        (f"Stop {i} body", n, f"{HARD['stop_body']['min']}-{HARD['stop_body']['max']}")
-        for i, n in enumerate(counts["stop_bodies"], 1)
+        (f"Section {i} body", n, f"{HARD['description_section_body']['min']}-{HARD['description_section_body']['max']}")
+        for i, n in enumerate(counts["section_bodies"], 1)
     ]
     for field, n, rule in rows:
         cells = table.add_row().cells

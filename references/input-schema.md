@@ -4,6 +4,8 @@ Use this checklist to normalize the user's source material. Accept prose, tables
 
 ## Required facts
 
+- Product type: day tour, ticket, or experience
+- Whether options exist, do not exist, or require clarification
 - Product language and departure city or activity location
 - Activity category and core experience
 - Total duration or validity
@@ -49,6 +51,8 @@ Ask only questions that change what a customer buys or expects, including:
 
 ```text
 Product/location:
+Product type (day tour / ticket / experience):
+Options status (present / none / unclear):
 Category:
 Duration:
 Core promise:

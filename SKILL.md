@@ -1,6 +1,6 @@
 ---
 name: write-gyg-product-copy
-description: Research, create, rewrite, audit, validate, and package high-conversion English GetYourGuide (GYG) product listings from a rough itinerary or detailed tour brief. Use for GYG 产品文案, 行程文案, destination and competitor research, selling-point discovery, traveler-view review, 57-60-character sales-focused titles, 190-200-character short descriptions, exactly five highlights, chronological long descriptions, voucher instructions, know-before-you-go notices, booking options, and polished Word .docx delivery.
+description: Research, create, rewrite, audit, validate, and package high-conversion English GetYourGuide (GYG) product listings from a rough itinerary or detailed tour brief. Use for GYG 产品文案, 行程文案, destination and competitor research, selling-point discovery, traveler-view review, 57-60-character sales-focused titles, 190-200-character short descriptions, exactly five highlights, product-type-aware long descriptions, voucher instructions, know-before-you-go notices, booking options, and polished Word .docx delivery.
 ---
 
 # Write GYG Product Copy
@@ -22,7 +22,11 @@ Read these files in order:
 
 Do not rely on remembered rules when these files are available.
 
-## Mandatory five-stage workflow
+## Mandatory preflight plus five-stage workflow
+
+### 0. Audit the submitted product before any research or copywriting
+
+Read the submission as a first-time traveler. Classify the product as `day_tour`, `ticket`, or `experience`; determine whether options exist or may be needed; and check whether the facts are sufficient to write every later field. Use `references/traveler-completeness-check.md` and ask one consolidated, prioritized question set covering every material ambiguity. Do not ask piecemeal follow-ups that could have been identified in this audit. Start research and drafting only after all critical answers are resolved and record the preflight as `PASS`.
 
 ### 1. Research the confirmed itinerary
 
@@ -34,7 +38,7 @@ Rank attractions first by traveler recognition, popularity, visual appeal, and p
 
 ### 3. Write the first draft to GYG limits and format
 
-Draft Long Description, five Highlights, Short Description, Product Title, operational sections, then Options. Follow the exact layout and hard limits. Use original, introduction-style, high-conversion language in every Description field. Keep disclaimers and travel execution instructions out of promotional copy.
+Draft Long Description, five Highlights, Short Description, Product Title, operational sections, then Options. For `day_tour`, use chronological itinerary nodes. For `ticket` or `experience`, replace the timeline with distinct selling-point sections describing access, content, participation, atmosphere, benefits, and verified inclusions. Follow the exact layout and hard limits. Use original, introduction-style, high-conversion language in every Description field. Keep disclaimers and travel execution instructions out of promotional copy.
 
 ### 4. Review the draft as a traveler
 
@@ -50,7 +54,9 @@ Apply the tone and content boundaries in `references/content-zoning.md`. Strengt
 - Enforce Product Title 57-60 and Short Description 190-200.
 - Integrate top-ranked attraction highlights and the strongest verified service differentiator into the title whenever they fit clearly.
 - Produce exactly five 75-80-character highlights, each starting with an action verb.
-- Keep Long Description chronological, with one `▼` heading and a 200-400-character body per substantive node.
+- Use chronological `▼` nodes only for `day_tour`. Use non-time-based `▼` selling-point sections for `ticket` and `experience`. Keep every section body within 200-400 characters and the complete Long Description within 2,000-2,300.
+- Keep Option titles short, precise, appealing, parallel, and instantly distinguishable from one another.
+- Enforce every Option Description at 180-200 characters: state the exact option content and difference first, then finish with an appealing purchase motivation.
 - Use real Word bullets; never type bullet glyphs into JSON.
 - Avoid number ambiguity in titles: do not let a stop count look like a group-size claim.
 - Keep all Description fields vivid, persuasive, guest-centered, and introduction-like.

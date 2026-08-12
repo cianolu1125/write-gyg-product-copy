@@ -1,4 +1,4 @@
 interface:
   display_name: "GYG English Product Copy"
   short_description: "Research routes and create validated GYG copy and Word files"
-  default_prompt: "Use $write-gyg-product-copy to research my itinerary and competitors, rank attraction and service selling points, create a 57-60-character title and persuasive Description fields, keep travel instructions in Voucher Information and cautions in Know Before You Go, then validate and generate the Word document."
+  default_prompt: "Use $write-gyg-product-copy to audit my submission once from a traveler perspective and ask all critical questions together, classify it as a day tour, ticket, or experience, research competitors, write the correct Long Description structure and 180-200-character Option Descriptions, then validate and generate the Word document."

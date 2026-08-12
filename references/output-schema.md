@@ -4,6 +4,13 @@ Create one UTF-8 JSON file with this exact structure. Use empty arrays for inapp
 
 ```json
 {
+  "product_type": "day_tour",
+  "preflight_review": {
+    "status": "PASS",
+    "product_type_confirmed": true,
+    "options_status": "confirmed_present",
+    "critical_questions_resolved": true
+  },
   "product_title": "57-60 characters combining top attractions and service USP",
   "short_description": "190-200 characters of persuasive introduction copy in 2-3 sentences.",
   "highlights": [
@@ -14,7 +21,7 @@ Create one UTF-8 JSON file with this exact structure. Use empty arrays for inapp
     "Action-led highlight 5"
   ],
   "full_description": {
-    "stops": [
+    "sections": [
       {
         "heading": "▼ 07:50 - Departure from Tokyo",
         "details": [],
@@ -48,11 +55,13 @@ Create one UTF-8 JSON file with this exact structure. Use empty arrays for inapp
 }
 ```
 
-Do not add `opening` or `closing` fields to `full_description`. The departure and return nodes perform those functions in the user's required layout. Do not type `•` into `details`; the Word builder creates real bullet paragraphs.
+Set `product_type` to exactly `day_tour`, `ticket`, or `experience`. Set `options_status` to `confirmed_present`, `confirmed_none`, or `needs_clarification`; final output requires the first or second value. Do not add `opening` or `closing` fields to `full_description`. Do not type `•` into `details`; the Word builder creates real bullet paragraphs.
+
+For `day_tour`, `sections` are chronological itinerary nodes and headings include supplied times. For `ticket` or `experience`, `sections` are non-time-based selling-point blocks; their headings must not fabricate itinerary times.
 
 Keep exact meeting, pickup, arrival, contact, and check-in instructions in `voucher_information`. Keep weather, traffic, cancellation, refund, late/no-show, luggage, accessibility, and other cautionary text in `know_before_you_go`. Do not place those messages in Product Title, Short Description, Highlights, Long Description, or Option Description.
 
-When `options` is non-empty, every option requires a non-placeholder `title`, `description`, and `availability`. Use `meeting_pickup: "Not applicable"` only when the option genuinely has no meeting or pickup instruction. Keep option inclusions/exclusions explicit when they differ.
+When `options` is non-empty, every option requires a unique, immediately differentiating title, a 180-200-character Description, and availability. Use `meeting_pickup: "Not applicable"` only when the option genuinely has no meeting or pickup instruction. Keep option inclusions/exclusions explicit when they differ.
 
 ## Word section order
 

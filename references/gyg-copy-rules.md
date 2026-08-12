@@ -35,9 +35,11 @@ House range: 190-200 visible characters including spaces and punctuation. Write 
 
 ### Full description
 
-Explain exactly what customers will see and do. Use original, descriptive language. GYG advises against merely listing a schedule. The house template requires chronological nodes, so use time/place headings only as navigation; make the paragraphs vivid, customer-centered, and outcome-led.
+Explain exactly what customers will see and do. Use original, descriptive language. GYG advises against merely listing a schedule. When a day tour uses chronological nodes, treat time/place headings only as navigation; make the paragraphs vivid, customer-centered, and outcome-led. Tickets and experiences instead use selling-point headings as defined below.
 
 House length: 2,000-2,300 visible characters including spaces and punctuation. Every substantive stop body must be 200-400 characters. Headings and departure-detail text count toward the total; newline controls do not. Combine low-value transfers and do not pad with generic praise.
+
+Choose structure by product type. A `day_tour` uses chronological itinerary nodes. A `ticket` or `experience` uses non-time-based selling-point sections, still introduced with separate `▼` headings and 200-400-character bodies. Never invent a timeline for a product whose value is access, participation, content, flexibility, or atmosphere rather than a sequence of stops.
 
 ### Highlights
 
@@ -50,6 +52,8 @@ Use plain item labels, not promotional adjectives. State hotel pickup and drop-o
 ### Options
 
 Create options only for material variations such as duration, group type, meeting point, pickup area/price, language-linked configuration, inclusions, or route. Keep option titles parallel and easy to compare. Use a description only if the title and inclusion fields cannot explain the difference. Do not add a sales sentence merely to fill space.
+
+Under the user's house rule, every supplied option requires a Description of 180-200 characters. Put the exact content and difference first, then use the remaining space for a truthful high-conversion payoff. Keep titles as short as possible while making the distinguishing attribute immediately visible.
 
 ### Meeting point and pickup
 

@@ -20,6 +20,8 @@
 
 Use this pattern. Do not add a standalone generic introduction before the departure node or a separate sales closing after the return node.
 
+This chronological pattern applies to `day_tour`. For `ticket` and `experience`, preserve the template's separate `▼` heading/body blocks and total/body character ranges, but organize them by selling point rather than inventing itinerary times.
+
 ```text
 ▼ 07:50 - Departure from Tokyo
 • 08:00 Meeting Point

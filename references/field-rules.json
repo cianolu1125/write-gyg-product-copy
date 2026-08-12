@@ -29,15 +29,19 @@
       "max": 2300,
       "source": "Explicit user DOCX rule."
     },
-    "stop_body": {
+    "description_section_body": {
       "min": 200,
       "max": 400,
-      "source": "Explicit user DOCX rule for each substantive itinerary node body."
+      "source": "User house rule applied to each substantive day-tour node or ticket/experience selling-point section."
+    },
+    "option_description": {
+      "min": 180,
+      "max": 200,
+      "source": "Explicit user-confirmed house range for every Option Description."
     }
   },
   "recommended_limits": {
-    "option_title": {"min": 15, "max": 60},
-    "option_description": {"min": 80, "max": 220},
+    "option_title": {"min": 8, "max": 45},
     "meeting_pickup": {"min": 60, "max": 220},
     "availability": {"min": 20, "max": 120},
     "know_before_you_go_item": {"min": 20, "max": 180},
