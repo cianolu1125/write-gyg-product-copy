@@ -1,0 +1,48 @@
+{
+  "counting": {
+    "include_spaces": true,
+    "include_punctuation": true,
+    "exclude_line_breaks": true,
+    "note": "Count visible Unicode characters after trimming outer whitespace. Newline control characters used only for layout are not counted."
+  },
+  "hard_limits": {
+    "product_title": {
+      "min": 57,
+      "max": 60,
+      "source": "Explicit user-confirmed house range: 57-60 characters."
+    },
+    "short_description": {
+      "min": 190,
+      "max": 200,
+      "sentences_min": 2,
+      "sentences_max": 3,
+      "source": "Explicit user-confirmed house range: 190-200 characters."
+    },
+    "highlights": {
+      "count": 5,
+      "min_each": 75,
+      "max_each": 80,
+      "source": "Explicit user DOCX rule: each highlight is within 75-80 characters."
+    },
+    "full_description": {
+      "min": 2000,
+      "max": 2300,
+      "source": "Explicit user DOCX rule."
+    },
+    "stop_body": {
+      "min": 200,
+      "max": 400,
+      "source": "Explicit user DOCX rule for each substantive itinerary node body."
+    }
+  },
+  "recommended_limits": {
+    "option_title": {"min": 15, "max": 60},
+    "option_description": {"min": 80, "max": 220},
+    "meeting_pickup": {"min": 60, "max": 220},
+    "availability": {"min": 20, "max": 120},
+    "know_before_you_go_item": {"min": 20, "max": 180},
+    "voucher_information_item": {"min": 60, "max": 220},
+    "include_exclude_item": {"min": 2, "max": 80}
+  },
+  "recommended_limits_note": "These are editing targets for concise, reusable output, not source-DOCX or official GYG platform limits. Do not pad text merely to satisfy them."
+}
